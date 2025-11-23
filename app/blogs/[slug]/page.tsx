@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -32,34 +32,34 @@ interface Post {
 const BlockRenderer = ({ block, allBlocks }: { block: Block; allBlocks: Block[] }) => {
     switch (block.type) {
         case 'heading':
-            const HeadingTag = `h${block.level || 2}` as keyof JSX.IntrinsicElements;
-            const headingClass = block.level === 1 
+            const HeadingTag = `h${block.level || 2}` as keyof React.JSX.IntrinsicElements;
+            const headingClass = block.level === 1
                 ? "text-3xl md:text-4xl font-bold text-text-primary mt-8"
                 : block.level === 2
-                ? "text-2xl md:text-3xl font-bold text-text-primary mt-8"
-                : "text-xl md:text-2xl font-bold text-text-primary mt-8";
+                    ? "text-2xl md:text-3xl font-bold text-text-primary mt-8"
+                    : "text-xl md:text-2xl font-bold text-text-primary mt-8";
             return <HeadingTag id={block.content.toLowerCase().replace(/\s+/g, '-')} className={headingClass}>{block.content}</HeadingTag>;
-        
+
         case 'paragraph':
             return <p className="mt-4 text-text-primary leading-relaxed">{block.content}</p>;
-        
+
         case 'image':
             return <img src={block.content} alt="Blog content" className="rounded-lg my-8 w-full h-auto" />;
-        
+
         case 'code':
             return (
                 <pre className="bg-gray-800 text-white p-4 rounded-lg my-8 overflow-x-auto">
                     <code>{block.content}</code>
                 </pre>
             );
-        
+
         case 'blockquote':
             return (
                 <blockquote className="border-l-4 border-accent-primary pl-4 italic text-text-secondary my-8">
                     "{block.content}"
                 </blockquote>
             );
-        
+
         case 'keytakeaways':
             const takeaways = block.content.split('\n').filter(line => line.trim());
             return (
@@ -72,7 +72,7 @@ const BlockRenderer = ({ block, allBlocks }: { block: Block; allBlocks: Block[] 
                     </ul>
                 </div>
             );
-        
+
         case 'toc':
             const headings = allBlocks.filter(b => b.type === 'heading');
             return (
@@ -99,7 +99,7 @@ const BlockRenderer = ({ block, allBlocks }: { block: Block; allBlocks: Block[] 
                     )}
                 </div>
             );
-        
+
         case 'sponsored':
             const sponsoredData = block.sponsoredData || {
                 heading: '',
@@ -138,9 +138,9 @@ const BlockRenderer = ({ block, allBlocks }: { block: Block; allBlocks: Block[] 
                         </div>
                         {sponsoredData.imageUrl && (
                             <div className="md:w-1/2 flex-shrink-0">
-                                <img 
-                                    src={sponsoredData.imageUrl} 
-                                    alt={sponsoredData.heading} 
+                                <img
+                                    src={sponsoredData.imageUrl}
+                                    alt={sponsoredData.heading}
                                     className="w-full h-full min-h-[200px] object-cover rounded-lg"
                                 />
                             </div>
@@ -148,7 +148,7 @@ const BlockRenderer = ({ block, allBlocks }: { block: Block; allBlocks: Block[] 
                     </div>
                 </div>
             );
-        
+
         default:
             return null;
     }
@@ -172,7 +172,7 @@ export default function BlogPost() {
         if (post) {
             document.title = `${post.title} | Jared Steven | AI Engineer`;
         }
-        
+
         // Cleanup: reset to default title when component unmounts
         return () => {
             document.title = 'Jared Steven | AI Engineer';
@@ -230,7 +230,7 @@ export default function BlogPost() {
                         </h1>
                         <p className="mt-2 text-sm text-text-secondary">{post.date}</p>
                     </div>
-                    
+
                     {post.header_image && (
                         <img
                             src={post.header_image}
