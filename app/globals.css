@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@theme {
+  /* Light Theme Colors */
+  --color-background-primary: #F7F7F7;
+  --color-background-secondary: #FFFFFF;
+  --color-text-primary: #000000;
+  --color-text-secondary: #555555;
+  --color-navigation-link: #555555;
+  --color-navigation-active: #000000;
+  --color-accent-primary: #FF453A;
+  --color-accent-text: #FFFFFF;
+  --color-border: #EAEAEA;
+
+ 
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-anonymous-pro), monospace;
+}
+
+::selection {
+  background-color: var(--color-accent-primary);
+  color: var(--color-accent-text);
+}
