@@ -3,7 +3,7 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 export default function AdminLayout({
   children,
 }: {
-  children: React.NodeNode;
+  children: React.ReactNode;
 }) {
   return <ProtectedRoute>{children}</ProtectedRoute>;
 }
