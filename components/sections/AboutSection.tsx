@@ -23,10 +23,10 @@ export default function AboutSection() {
         </div>
         <div className="md:col-span-2">
           <p className="text-lg text-text-secondary leading-relaxed">
-            My focus is on the complete machine learning lifecycle, from data inception to scalable production deployment. I thrive on architecting systems that are not only intelligent but also robust, efficient, and maintainable.
+            My work sits at the intersection of AI strategy, product development, and production engineering. I specialize in guiding AI initiatives from vague ideas to measurable business impact—ensuring each investment in AI is technically sound, economically justified, and operationally sustainable.
           </p>
           <p className="mt-6 text-lg text-text-secondary leading-relaxed">
-            Whether it&apos;s fine-tuning a 70B parameter LLM, building a real-time computer vision pipeline, or setting up a Kubernetes cluster for model serving, I bring a pragmatic and detail-oriented approach to every challenge.
+            "AI success is not defined by model accuracy—it is defined by adoption, reliability, ROI, and longevity in production."
           </p>
 
           <div className="mt-12">

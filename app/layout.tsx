@@ -1,21 +1,18 @@
 import type { Metadata } from "next";
-import { Anonymous_Pro } from "next/font/google";
+import { Noto_Serif } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { GoogleAnalytics } from '@next/third-parties/google';
 
-const anonymousPro = Anonymous_Pro({
+const notoSerif = Noto_Serif({
   subsets: ["latin"],
   weight: ["400", "700"],
-  variable: "--font-anonymous-pro",
+  variable: "--font-noto-serif",
 });
 
 export const metadata: Metadata = {
   title: "Jared Steven | AI Engineer",
   description: "AI Engineer specializing in Natural Language Processing and large-scale model deployment.",
-  icons: {
-    icon: "/Js.png",
-  },
 };
 
 export default function RootLayout({
@@ -28,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <body className={`${anonymousPro.variable} font-sans antialiased selection:bg-accent-primary selection:text-accent-text`}>
+      <body className={`${notoSerif.variable} antialiased selection:bg-accent-primary selection:text-accent-text`}>
         <ThemeProvider>
           {children}
         </ThemeProvider>

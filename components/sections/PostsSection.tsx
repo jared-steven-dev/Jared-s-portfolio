@@ -10,6 +10,7 @@ interface Post {
   description: string;
   date: string;
   read_time: string;
+  header_image: string;
 }
 
 export default function PostsSection() {
@@ -32,7 +33,7 @@ export default function PostsSection() {
     // Get 3 most recent posts
     const { data, error } = await supabase
       .from('posts')
-      .select('slug, title, category, description, date, read_time')
+      .select('slug, title, category, description, date, read_time, header_image')
       .order('date', { ascending: false })
       .limit(3);
 
@@ -63,37 +64,46 @@ export default function PostsSection() {
         </div>
       ) : (
         <>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-        {posts.map((post) => (
-          <a
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+            {posts.map((post) => (
+              <a
                 key={post.slug}
                 href={`/blogs/${post.slug}`}
-            className="block group bg-background-secondary p-6 rounded-lg border border-border hover:border-accent-primary transition-colors duration-200"
-          >
-            <p className="text-sm font-semibold uppercase text-accent-primary">
-              {post.category}
-            </p>
-            <h3 className="mt-2 text-xl font-semibold text-text-primary group-hover:underline">
-              {post.title}
-            </h3>
-            <p className="mt-3 text-text-secondary text-sm">
-              {post.description}
-            </p>
-            <p className="mt-4 text-xs text-text-secondary opacity-75">
-                  {post.date} · {post.read_time}
-            </p>
-          </a>
-        ))}
-      </div>
+                className="block group bg-background-secondary rounded-lg border border-border hover:border-accent-primary transition-colors duration-200 overflow-hidden"
+              >
+                {post.header_image && (
+                  <img
+                    src={post.header_image}
+                    alt={post.title}
+                    className="w-full h-48 object-cover"
+                  />
+                )}
+                <div className="p-6">
+                  <p className="text-sm font-semibold uppercase text-accent-primary">
+                    {post.category}
+                  </p>
+                  <h3 className="mt-2 text-xl font-semibold text-text-primary group-hover:underline">
+                    {post.title}
+                  </h3>
+                  <p className="mt-3 text-text-secondary text-sm">
+                    {post.description}
+                  </p>
+                  <p className="mt-4 text-xs text-text-secondary opacity-75">
+                    {post.date} · {post.read_time}
+                  </p>
+                </div>
+              </a>
+            ))}
+          </div>
 
-      <div className="text-center mt-12">
-        <a
+          <div className="text-center mt-12">
+            <a
               href="/blogs"
-          className="inline-block text-navigation-active font-medium hover:text-accent-primary transition-colors duration-200 border-b border-navigation-active hover:border-accent-primary"
-        >
+              className="inline-block text-navigation-active font-medium hover:text-accent-primary transition-colors duration-200 border-b border-navigation-active hover:border-accent-primary"
+            >
               View All Posts ({totalPosts} total)
-        </a>
-      </div>
+            </a>
+          </div>
         </>
       )}
     </section>

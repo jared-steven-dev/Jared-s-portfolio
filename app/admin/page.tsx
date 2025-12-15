@@ -21,6 +21,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { supabase } from '@/lib/supabaseClient';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import RichTextEditor from '@/components/RichTextEditor';
 
 type BlockType = 'heading' | 'paragraph' | 'image' | 'code' | 'blockquote' | 'keytakeaways' | 'toc' | 'sponsored';
 
@@ -94,12 +95,10 @@ const SortableBlockEditor = ({ block, onChange, onDelete }: { block: Block; onCh
                 );
             case 'paragraph':
                 return (
-                    <textarea
-                        value={block.content}
-                        onChange={(e) => updateContent(e.target.value)}
+                    <RichTextEditor
+                        content={block.content}
+                        onChange={updateContent}
                         placeholder="Enter paragraph text..."
-                        rows={4}
-                        className="w-full p-3 bg-background-secondary border border-border rounded-md"
                     />
                 );
             case 'image':
@@ -129,22 +128,20 @@ const SortableBlockEditor = ({ block, onChange, onDelete }: { block: Block; onCh
                 );
             case 'blockquote':
                 return (
-                    <textarea
-                        value={block.content}
-                        onChange={(e) => updateContent(e.target.value)}
+                    <RichTextEditor
+                        content={block.content}
+                        onChange={updateContent}
                         placeholder="Enter quote..."
-                        rows={3}
-                        className="w-full p-3 bg-background-secondary border-l-4 border-accent-primary rounded-md italic"
+                        className="border-l-4 border-accent-primary"
                     />
                 );
             case 'keytakeaways':
                 return (
-                    <textarea
-                        value={block.content}
-                        onChange={(e) => updateContent(e.target.value)}
-                        placeholder="Enter key takeaways (one per line)..."
-                        rows={5}
-                        className="w-full p-3 bg-background-secondary border border-accent-primary rounded-md"
+                    <RichTextEditor
+                        content={block.content}
+                        onChange={updateContent}
+                        placeholder="Enter key takeaways (use bullet list)..."
+                        className="border-accent-primary"
                     />
                 );
             case 'toc':

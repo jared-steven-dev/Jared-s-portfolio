@@ -8,17 +8,10 @@ export default function ExperienceSection() {
       isCurrent: true
     },
     {
-      period: "Feb 2022 - July 2024",
-      title: "Full Stack Developer Specializing in AI",
-      company: "Freelance",
+      period: "Oct 2021 - July 2024",
+      title: "Consultant Specializing in AI and Data Science",
+      company: "Independent Consultant",
       description: "Developed full-stack applications for clients using React, Node.js, and Python. Also, built real-time AI models for clients using Python TensorFlow and PyTorch.",
-      isCurrent: false
-    },
-    {
-      period: "Oct 2021 - Feb 2022",
-      title: "Data Mining Researcher",
-      company: "Profive Infotech",
-      description: "Researched and developed data mining models for customer churn prediction, Agriculture, and E-commerce. Also, built real-time serving infrastructure on cloud services like AWS, GCP, and Azure for data mining tasks.",
       isCurrent: false
     },
     {
@@ -40,18 +33,16 @@ export default function ExperienceSection() {
         {experiences.map((exp, index) => (
           <div key={index} className="mb-12 relative">
             <span
-              className={`absolute -left-[33px] top-1 w-4 h-4 rounded-full ${
-                exp.isCurrent
-                  ? "bg-accent-primary"
-                  : "bg-background-secondary border-2 border-border"
-              }`}
+              className={`absolute -left-[33px] top-1 w-4 h-4 rounded-full ${exp.isCurrent
+                ? "bg-accent-primary"
+                : "bg-background-secondary border-2 border-border"
+                }`}
             />
             <p
-              className={`text-sm font-semibold uppercase tracking-wider ${
-                exp.isCurrent
-                  ? "text-accent-primary"
-                  : "text-text-secondary"
-              }`}
+              className={`text-sm font-semibold uppercase tracking-wider ${exp.isCurrent
+                ? "text-accent-primary"
+                : "text-text-secondary"
+                }`}
             >
               {exp.period}
             </p>

@@ -6,7 +6,20 @@ export async function POST(request: NextRequest) {
     const { username, password } = await request.json();
 
     // Validate credentials
-    if (!validateCredentials(username, password)) {
+    let isValid = false;
+    try {
+      isValid = validateCredentials(username, password);
+    } catch (error: any) {
+      if (error.message === 'MISSING_CONFIG') {
+        return NextResponse.json(
+          { error: 'Server configuration error: Admin credentials not set' },
+          { status: 500 }
+        );
+      }
+      throw error;
+    }
+
+    if (!isValid) {
       return NextResponse.json(
         { error: 'Invalid credentials' },
         { status: 401 }

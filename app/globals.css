@@ -20,7 +20,7 @@ html {
 }
 
 body {
-  font-family: var(--font-anonymous-pro), monospace;
+  font-family: var(--font-noto-serif), serif;
 }
 
 ::selection {

@@ -14,6 +14,7 @@ interface Blog {
     description: string;
     date: string;
     read_time: string;
+    header_image: string;
 }
 
 export default function PostsPage() {
@@ -27,7 +28,7 @@ export default function PostsPage() {
     const loadBlogs = async () => {
         const { data, error } = await supabase
             .from('posts')
-            .select('id, title, slug, category, description, date, read_time')
+            .select('id, title, slug, category, description, date, read_time, header_image')
             .order('date', { ascending: false });
 
         if (error) {
@@ -46,9 +47,9 @@ export default function PostsPage() {
                     Blog
                 </h1>
                 <p className="mt-4 text-xl text-text-secondary max-w-3xl mx-auto text-center">
-                    Deep dives into MLOps, LLM optimization, and the latest trends in production AI systems.
+                    Deep dives into AI and Data Governance, MLOps, LLM optimization, AI Research and the latest trends in production AI systems.
                 </p>
-                
+
                 {loading ? (
                     <div className="text-center py-12">
                         <p className="text-text-secondary">Loading posts...</p>
@@ -63,20 +64,29 @@ export default function PostsPage() {
                             <Link
                                 key={blog.slug}
                                 href={"/blogs/" + blog.slug}
-                                className="block group bg-background-secondary p-6 rounded-lg border border-border hover:border-accent-primary transition-colors duration-200"
+                                className="block group bg-background-secondary rounded-lg border border-border hover:border-accent-primary transition-colors duration-200 overflow-hidden"
                             >
-                                <p className="text-sm font-semibold uppercase text-accent-primary">
-                                    {blog.category}
-                                </p>
-                                <h3 className="mt-2 text-xl font-semibold text-text-primary group-hover:underline">
-                                    {blog.title}
-                                </h3>
-                                <p className="mt-3 text-text-secondary text-sm">
-                                    {blog.description}
-                                </p>
-                                <p className="mt-4 text-xs text-text-secondary opacity-75">
-                                    {blog.date} · {blog.read_time}
-                                </p>
+                                {blog.header_image && (
+                                    <img
+                                        src={blog.header_image}
+                                        alt={blog.title}
+                                        className="w-full h-48 object-cover"
+                                    />
+                                )}
+                                <div className="p-6">
+                                    <p className="text-sm font-semibold uppercase text-accent-primary">
+                                        {blog.category}
+                                    </p>
+                                    <h3 className="mt-2 text-xl font-semibold text-text-primary group-hover:underline">
+                                        {blog.title}
+                                    </h3>
+                                    <p className="mt-3 text-text-secondary text-sm">
+                                        {blog.description}
+                                    </p>
+                                    <p className="mt-4 text-xs text-text-secondary opacity-75">
+                                        {blog.date} · {blog.read_time}
+                                    </p>
+                                </div>
                             </Link>
                         ))}
                     </div>

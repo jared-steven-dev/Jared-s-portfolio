@@ -29,6 +29,35 @@ interface Post {
     blocks: Block[];
 }
 
+const LazyImage = ({ src, alt, className }: { src: string; alt: string; className?: string }) => {
+    const [isLoading, setIsLoading] = useState(true);
+    const [hasError, setHasError] = useState(false);
+
+    return (
+        <div className="relative">
+            {isLoading && (
+                <div className="absolute inset-0 bg-gray-700 animate-pulse rounded-lg" />
+            )}
+            <img
+                src={src}
+                alt={alt}
+                className={`${className} ${isLoading ? 'opacity-0' : 'opacity-100 transition-opacity duration-300'}`}
+                loading="lazy"
+                onLoad={() => setIsLoading(false)}
+                onError={() => {
+                    setIsLoading(false);
+                    setHasError(true);
+                }}
+            />
+            {hasError && (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-800 rounded-lg">
+                    <p className="text-gray-400">Failed to load image</p>
+                </div>
+            )}
+        </div>
+    );
+};
+
 const BlockRenderer = ({ block, allBlocks }: { block: Block; allBlocks: Block[] }) => {
     switch (block.type) {
         case 'heading':
@@ -41,10 +70,24 @@ const BlockRenderer = ({ block, allBlocks }: { block: Block; allBlocks: Block[] 
             return <HeadingTag id={block.content.toLowerCase().replace(/\s+/g, '-')} className={headingClass}>{block.content}</HeadingTag>;
 
         case 'paragraph':
-            return <p className="mt-4 text-text-primary leading-relaxed">{block.content}</p>;
+            return (
+                <div 
+                    className="mt-4 text-text-primary leading-relaxed prose prose-invert max-w-none
+                        [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-2
+                        [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-2
+                        [&_li]:my-1
+                        [&_a]:text-accent-primary [&_a]:underline
+                        [&_strong]:font-bold
+                        [&_em]:italic
+                        [&_s]:line-through
+                        [&_code]:bg-gray-800 [&_code]:px-1 [&_code]:rounded
+                        [&_blockquote]:border-l-4 [&_blockquote]:border-accent-primary [&_blockquote]:pl-4 [&_blockquote]:italic"
+                    dangerouslySetInnerHTML={{ __html: block.content }}
+                />
+            );
 
         case 'image':
-            return <img src={block.content} alt="Blog content" className="rounded-lg my-8 w-full h-auto" />;
+            return <LazyImage src={block.content} alt="Blog content" className="rounded-lg my-8 w-full h-auto" />;
 
         case 'code':
             return (
@@ -55,21 +98,30 @@ const BlockRenderer = ({ block, allBlocks }: { block: Block; allBlocks: Block[] 
 
         case 'blockquote':
             return (
-                <blockquote className="border-l-4 border-accent-primary pl-4 italic text-text-secondary my-8">
-                    "{block.content}"
-                </blockquote>
+                <blockquote 
+                    className="border-l-4 border-accent-primary pl-4 italic text-text-secondary my-8 prose prose-invert max-w-none
+                        [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-2
+                        [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-2
+                        [&_a]:text-accent-primary [&_a]:underline
+                        [&_strong]:font-bold"
+                    dangerouslySetInnerHTML={{ __html: block.content }}
+                />
             );
 
         case 'keytakeaways':
-            const takeaways = block.content.split('\n').filter(line => line.trim());
             return (
                 <div className="bg-background-secondary p-6 rounded-lg border border-accent-primary my-8">
                     <h2 className="text-xl font-bold text-text-primary mb-4">Key Takeaways</h2>
-                    <ul className="list-disc list-inside space-y-2">
-                        {takeaways.map((takeaway, index) => (
-                            <li key={index}>{takeaway}</li>
-                        ))}
-                    </ul>
+                    <div 
+                        className="prose prose-invert max-w-none
+                            [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-2
+                            [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-2
+                            [&_li]:my-1
+                            [&_a]:text-accent-primary [&_a]:underline
+                            [&_strong]:font-bold
+                            [&_em]:italic"
+                        dangerouslySetInnerHTML={{ __html: block.content }}
+                    />
                 </div>
             );
 
@@ -138,7 +190,7 @@ const BlockRenderer = ({ block, allBlocks }: { block: Block; allBlocks: Block[] 
                         </div>
                         {sponsoredData.imageUrl && (
                             <div className="md:w-1/2 flex-shrink-0">
-                                <img
+                                <LazyImage
                                     src={sponsoredData.imageUrl}
                                     alt={sponsoredData.heading}
                                     className="w-full h-full min-h-[200px] object-cover rounded-lg"
@@ -232,7 +284,7 @@ export default function BlogPost() {
                     </div>
 
                     {post.header_image && (
-                        <img
+                        <LazyImage
                             src={post.header_image}
                             alt="Article header image"
                             className="rounded-lg mb-8 w-full h-auto"

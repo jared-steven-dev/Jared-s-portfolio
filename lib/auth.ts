@@ -23,9 +23,17 @@ export async function verifyToken(token: string): Promise<{ username: string } |
 }
 
 export function validateCredentials(username: string, password: string): boolean {
-  const adminUsername = process.env.NEXT_PUBLIC_ADMIN_USERNAME;
-  const adminPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
+  const adminUsername = process.env.ADMIN_USERNAME;
+  const adminPassword = process.env.ADMIN_PASSWORD;
 
-  return username === adminUsername && password === adminPassword;
+  if (!adminUsername || !adminPassword) {
+    throw new Error('MISSING_CONFIG');
+  }
+
+  // Compare with trimmed values to avoid whitespace issues
+  return (
+    username.trim() === adminUsername.trim() &&
+    password.trim() === adminPassword.trim()
+  );
 }
 
